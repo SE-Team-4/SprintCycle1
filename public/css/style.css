@@ -10,9 +10,66 @@
     color: #fff; /* Text color */
     padding: 14px 16px;
     text-decoration: none;
+    font-family: 'Helvetica', sans-serif; /* Updated font family */
 }
 
 .navbar a:hover {
     background-color: #005aa3; /* Darker blue on hover */
     color: #fff; /* Text color on hover */
+}
+
+/* Additional styles for the page content */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    font-family: 'Arial', sans-serif; /* Updated font family */
+    color: #333; /* Text color */
+}
+
+h1 {
+    font-size: 28px; /* Increased font size for the header */
+}
+
+.student-info {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif; /* Updated font family */
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    font-family: 'Arial', sans-serif; /* Updated font family */
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'Helvetica', sans-serif; /* Updated font family */
+}
+
+.button:hover {
+    background-color: #0056b3;
 }
