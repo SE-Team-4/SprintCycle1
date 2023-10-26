@@ -94,11 +94,10 @@ async function fetchAllCourses() {
   }
 }
 
-let currentCourses = []; // Define currentCourses at a higher scope level
+let currentCourses = []; 
 
 app.get('/planner', async (req, res) => {
   try {
-    // Define coursesNotTaken as an empty array
     let coursesNotTaken = [];
 
     // Populate coursesNotTaken based on the conditions in your GET route
@@ -118,12 +117,8 @@ app.get('/planner', async (req, res) => {
 
 app.post('/planner', async (req, res) => {
   try {
-    // Define coursesNotTaken as an empty array
     let coursesNotTaken = [];
 
-    // Populate coursesNotTaken based on the conditions in your POST route if needed
-
-    // The rest of your POST route logic
     const selectedCourseIds = req.body.selectedCourses;
     if (!selectedCourseIds || !Array.isArray(selectedCourseIds)) {
       res.status(400).send('Invalid course selections');
@@ -133,7 +128,6 @@ app.post('/planner', async (req, res) => {
     // Fetch all courses, including the creditHours field
     const allClasses = await fetchAllCourses();
 
-    // Calculate selectedCourses
     const selectedCourses = allClasses.filter(course => selectedCourseIds.includes(course._id));
 
     // Retrieve the current courses from the hidden input field
