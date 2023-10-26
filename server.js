@@ -9,6 +9,7 @@ let dbConnectionStr = process.env.DB_STRING;
 let classesCollection; 
 let student1Collection;
 
+
 app.set('view engine', 'ejs');
 
 MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
@@ -80,9 +81,76 @@ app.get('/planAhead', async (req, res) => {
     res.render('planAhead', { student: studentWithCoursesNotTaken });
   } catch (error) {
     console.error('Error:', error);
+    res.status(500).send('Internal Server Error 1');
+  }
+});
+
+async function fetchAllCourses() {
+  try {
+    const allClasses = await classesCollection.find({}, { courseNumber: 1, creditHours: 1 }).toArray();
+    return allClasses;
+  } catch (error) {
+    throw error;
+  }
+}
+
+let currentCourses = []; // Define currentCourses at a higher scope level
+
+app.get('/planner', async (req, res) => {
+  try {
+    // Define coursesNotTaken as an empty array
+    let coursesNotTaken = [];
+
+    // Populate coursesNotTaken based on the conditions in your GET route
+    const student = await student1Collection.findOne({ studentId: selectedStudent });
+    if (student) {
+      const allClasses = await fetchAllCourses();
+      coursesNotTaken = allClasses.filter(course => !student.coursesTaken.includes(course._id));
+    }
+
+    // Render the 'planner' template and pass the data
+    res.render('planner', { coursesNotTaken, currentCourses });
+  } catch (error) {
+    console.error('Error:', error);
     res.status(500).send('Internal Server Error');
   }
 });
+
+app.post('/planner', async (req, res) => {
+  try {
+    // Define coursesNotTaken as an empty array
+    let coursesNotTaken = [];
+
+    // Populate coursesNotTaken based on the conditions in your POST route if needed
+
+    // The rest of your POST route logic
+    const selectedCourseIds = req.body.selectedCourses;
+    if (!selectedCourseIds || !Array.isArray(selectedCourseIds)) {
+      res.status(400).send('Invalid course selections');
+      return;
+    }
+
+    // Fetch all courses, including the creditHours field
+    const allClasses = await fetchAllCourses();
+
+    // Calculate selectedCourses
+    const selectedCourses = allClasses.filter(course => selectedCourseIds.includes(course._id));
+
+    // Retrieve the current courses from the hidden input field
+    currentCourses = JSON.parse(req.body.currentCourses);
+
+    // Pass 'coursesNotTaken' and 'currentCourses' when rendering the template
+    res.render('planner', {
+      coursesNotTaken: coursesNotTaken,
+      selectedCourses: selectedCourses,
+      currentCourses: currentCourses.concat(selectedCourses),
+    });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 
 app.listen(process.env.PORT || PORT, () => {
   console.log(`Server running on port ${PORT}`);

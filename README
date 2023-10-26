@@ -7,3 +7,4 @@ Then:
 Create a new file with the name: .env
 Inside .env, write DB_STRING = <database string here>
 We will put the DB string on discord.
+To run: npm run dev
